@@ -28,3 +28,7 @@ Thumbs.db
 
 # Firebase / secret keys
 secrets/
+
+frontend/node_modules/
+frontend/dist/
+node_modules/
