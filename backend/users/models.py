@@ -25,5 +25,5 @@ class User(AbstractUser): # taking django's default User and adding more fields
     def __str__(self):
         return f"{self.username} - {self.role}"
     
-"""Note: Since my AI-powered grievance system requires role-based access control and future authentication scalability, 
-    I extended Django’s AbstractUser to include role management and additional metadata fields"""
+#Note: Since my AI-powered grievance system requires role-based access control and future authentication scalability, 
+    #I extended Django’s AbstractUser to include role management and additional metadata fields
