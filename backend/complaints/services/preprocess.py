@@ -33,7 +33,7 @@ def urgency_score_rule_based(text: str, sentiment_label: str) -> tuple[int, str]
     t = text.lower()
 
     score = 10
-    keywords_critical = ["life", "death", "accident", "blood", "fire", "urgent", "emergency", "attack", "hospital"]
+    keywords_critical = ["life", "death", "accident", "blood", "fire", "urgent", "emergency", "attack", "hospital", "not responding", "blood pressure", "heart", "accident", "unconscious", "severe"]
     keywords_high = ["danger", "collapsed", "no water", "electric shock", "crime", "harassment", "threat"]
 
     if any(k in t for k in keywords_critical):
