@@ -46,7 +46,9 @@ class Complaint(models.Model):
 
 class ComplaintMedia(models.Model):
     complaint = models.ForeignKey(Complaint, on_delete=models.CASCADE, related_name="media")
-    file_url = models.URLField()  # later connection to S3/Firebase storage URL
+    #file_url = models.URLField()   later connection to S3/Firebase storage URL
+    file = models.FileField(upload_to="complaints/", null=True, blank=True)
+    # Instead of storing a URL manually, Django now stores the uploaded file properly (like uploading a photo of a broken road or an audio recording of a complaint call)
     media_type = models.CharField(max_length=30, blank=True)  # image/audio/video
     created_at = models.DateTimeField(auto_now_add=True)
 
