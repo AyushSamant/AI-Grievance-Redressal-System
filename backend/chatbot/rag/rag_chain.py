@@ -1,8 +1,23 @@
 from chatbot.rag.retriever import retrieve_context
-from chatbot.llm_client import call_llm
+#from chatbot.llm_client import call_llm
+from chatbot.llm_router import generate_answer
 
 def answer_with_rag(question: str) -> dict:
-    context = retrieve_context(question, k=4)
+
+    q = question.upper()
+
+    if "HIGH" in q and "RESOLVE" in q:
+        return {
+            "answer": "HIGH priority complaints are typically resolved within 4 days.",
+            "context_used": "Rule-based shortcut"
+        }
+
+    if "CRITICAL" in q:
+        return {
+            "answer": "CRITICAL complaints are typically resolved within 2 days.",
+            "context_used": "Rule-based shortcut"
+        }
+    context = retrieve_context(question, k=2)
 
     prompt = f"""
 Use ONLY the context below to answer the user's question.
@@ -17,13 +32,16 @@ User Question:
 Answer in a clear, formal, helpful tone.
 """
 
-    answer = call_llm(prompt)
-
+    #answer = call_llm(prompt)
+    llm_out = generate_answer(prompt)
+    # the LLM writes the response. If DeepSeek fails, WatsonX handles it
     return {
         "question": question,
-        "answer": answer,
+        "answer": llm_out["text"],
+        "provider": llm_out["provider"],
         "context_used": context
     }
+
 
 """from chatbot.rag.retriever import retrieve_context
 

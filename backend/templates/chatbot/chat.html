@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}
+AI Chat Assistant
+{% endblock %}
+
+{% block body_content %}
+
+<h2>AI Grievance Assistant</h2>
+
+<div id="chat-box" style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:auto;">
+</div>
+
+<br>
+
+<input type="text" id="question" placeholder="Ask something..." style="width:70%;">
+<button onclick="sendQuestion()">Send</button>
+
+<script>
+async function sendQuestion() {
+    const questionInput = document.getElementById("question");
+    const chatBox = document.getElementById("chat-box");
+
+    const question = questionInput.value;
+    if (!question) return;
+
+    chatBox.innerHTML += "<p><strong>You:</strong> " + question + "</p>";
+
+    const token = localStorage.getItem("access"); // from your login
+
+    const response = await fetch("/api/chatbot/ask/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ question: question })
+    });
+
+    const data = await response.json();
+
+    if (data.answer) {
+        chatBox.innerHTML += "<p><strong>Bot:</strong> " + data.answer + "</p>";
+    } else {
+        chatBox.innerHTML += "<p><strong>Error:</strong> " + data.detail + "</p>";
+    }
+
+    questionInput.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+
+{% endblock %}
