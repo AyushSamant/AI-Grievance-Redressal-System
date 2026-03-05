@@ -1,40 +1,119 @@
-from typing import Optional
+import re
+EMERGENCY_PATTERNS = [
+    # Medical / health
+    (r"heart\s*attack|cardiac\s*arrest|chest\s*pain|stroke|seizure|"
+     r"unconscious|not\s*breathing|emergency|ambulance|hospital|"
+     r"bleeding|accident\s*victim|injured|critical\s*condition|"
+     r"died|death|dead|medical|fever|dengue|cholera|epidemic|"
+     r"food\s*poison|overdose|burn\s*victim|drowning",
+     "HEALTH", "CRITICAL"),
 
-#routing rulebook
-# the system use it to detect the department of that complain 
-# when a complaint is categorized (Health/Water/etc.), it gets routed to that department and assigned a target timeline (SLA (Service Level Agreement)- Decide how fast it should be resolved)
+    # Fire / gas leak
+    (r"fire\s*break|gas\s*leak|explosion|building\s*collapse|flood\s*rescue",
+     "INFRASTRUCTURE", "CRITICAL"),
+
+    # Crime / safety
+    (r"robbery|assault|murder|rape|kidnap|missing\s*child|terrorism",
+     "SAFETY", "CRITICAL"),
+]
+
+def emergency_override(text: str):
+    """
+    Returns (category, priority) if the text matches an emergency pattern,
+    otherwise returns (None, None).
+    Call this BEFORE predict_category().
+    """
+    lowered = text.lower()
+    for pattern, category, priority in EMERGENCY_PATTERNS:
+        if re.search(pattern, lowered):
+            return category, priority
+    return None, None
+
 CATEGORY_TO_DEPT = {
-    "HEALTH": "Health",
-    "INFRASTRUCTURE": "Infrastructure",
-    "AGRICULTURE": "Agriculture",
-    "EDUCATION": "Education",
-    "SANITATION": "Sanitation",
-    "WATER": "Water Supply",
-    "ELECTRICITY": "Electricity",
-    "PUBLIC_SAFETY": "Public Safety",
+    # Health
+    "HEALTH":          "Health & Medical Services",
+    "MEDICAL":         "Health & Medical Services",
+    "HEALTHCARE":      "Health & Medical Services",
+
+    # Electricity
+    "ELECTRICITY":     "Electricity & Power",
+    "POWER":           "Electricity & Power",
+    "ENERGY":          "Electricity & Power",
+
+    # Water
+    "WATER":           "Water Supply & Sanitation",
+    "SANITATION":      "Water Supply & Sanitation",
+    "DRAINAGE":        "Water Supply & Sanitation",
+    "SEWAGE":          "Water Supply & Sanitation",
+
+    # Roads / Infrastructure
+    "INFRASTRUCTURE":  "Infrastructure & Roads",
+    "ROADS":           "Infrastructure & Roads",
+    "ROAD":            "Infrastructure & Roads",
+    "TRANSPORT":       "Transport & Traffic",
+    "TRAFFIC":         "Transport & Traffic",
+
+    # Safety / Police
+    "SAFETY":          "Public Safety & Police",
+    "POLICE":          "Public Safety & Police",
+    "CRIME":           "Public Safety & Police",
+    "SECURITY":        "Public Safety & Police",
+
+    # Agriculture
+    "AGRICULTURE":     "Agriculture & Farming",
+    "FARMING":         "Agriculture & Farming",
+    "CROP":            "Agriculture & Farming",
+    "IRRIGATION":      "Agriculture & Farming",
+
+    # Education
+    "EDUCATION":       "Education",
+    "SCHOOL":          "Education",
+    "COLLEGE":         "Education",
+
+    # Revenue / Tax
+    "REVENUE":         "Revenue & Taxation",
+    "TAXATION":        "Revenue & Taxation",
+    "TAX":             "Revenue & Taxation",
+    "LAND":            "Revenue & Taxation",
+
+    # Housing
+    "HOUSING":         "Housing & Urban Development",
+    "CONSTRUCTION":    "Housing & Urban Development",
+    "BUILDING":        "Housing & Urban Development",
+
+    # Environment
+    "ENVIRONMENT":     "Environment & Waste Management",
+    "WASTE":           "Environment & Waste Management",
+    "GARBAGE":         "Environment & Waste Management",
+    "POLLUTION":       "Environment & Waste Management",
+
+    # General fallback
+    "GENERAL":         None,   # leaves department unassigned → admin assigns
 }
 
-#defines how many days the department must resolve the issue
-SLA_BY_PRIORITY = {
+
+def resolve_department_name(category: str) -> str | None:
+    """Return the Department name for a given category string, or None."""
+    return CATEGORY_TO_DEPT.get(category.upper())
+
+SLA_MAP = {
     "CRITICAL": 2,
-    "HIGH": 4,
-    "MEDIUM": 7,
-    "LOW": 14,
+    "HIGH":     4,
+    "MEDIUM":   7,
+    "LOW":      14,
 }
-
-def resolve_department_name(category: str) -> Optional[str]:
-    return CATEGORY_TO_DEPT.get(category) # .get would return None safely
 
 def compute_sla_days(priority: str) -> int:
-    return SLA_BY_PRIORITY.get(priority, 7) # default to 7 days
+    return SLA_MAP.get(str(priority).upper(), 7)
 
-def predict_resolution_days(priority: str, urgency_score: int) -> int:
-    """
-    Higher urgency/priority -> shorter target days.
-    """
+
+def predict_resolution_days(priority: str, urgency_score) -> int:
+    """Simple heuristic — replace with a trained model if available."""
     base = compute_sla_days(priority)
-    if urgency_score >= 80:
-        return max(1, base - 1)
-    if urgency_score <= 20:
-        return base + 2
-    return base
+    try:
+        score = int(urgency_score or 50)
+    except (TypeError, ValueError):
+        score = 50
+    # Higher urgency → resolves faster (more attention)
+    factor = max(0.5, 1.0 - (score - 50) / 200)
+    return max(1, int(base * factor))

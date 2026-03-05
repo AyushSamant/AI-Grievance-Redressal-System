@@ -1,6 +1,11 @@
-from django.urls import path
-from .views import ComplaintCreateView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import ComplaintViewSet, CitizenComplaintDetailView, CitizenComplaintListView
 
+router = DefaultRouter()
+router.register(r"", ComplaintViewSet, basename="complaint")
 urlpatterns = [
-    path("create/", ComplaintCreateView.as_view(), name="complaint_create"),
+    path("my-complaints/", CitizenComplaintListView.as_view()),
+    path("my-complaints/<int:pk>/", CitizenComplaintDetailView.as_view()),
+    path("", include(router.urls)),
 ]

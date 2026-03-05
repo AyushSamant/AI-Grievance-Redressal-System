@@ -1,0 +1,16 @@
+# GrievanceAI — Streamlit Frontend Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core
+streamlit>=1.32.0
+plotly>=5.18.0
+requests>=2.31.0
+
+# Data manipulation
+pandas>=2.1.0
+
+# Visualizations
+plotly>=5.19.0
+
+# Utilities (optional, for future extensions)
+python-dateutil>=2.8.2

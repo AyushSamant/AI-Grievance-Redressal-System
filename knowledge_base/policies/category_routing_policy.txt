@@ -1,0 +1,19 @@
+CATEGORY ROUTING POLICY
+
+Purpose:
+To ensure complaints are routed to the correct authority automatically and consistently.
+
+Category to Department Mapping:
+- HEALTH -> Health Department
+- INFRASTRUCTURE -> Infrastructure Department
+- WATER -> Water Supply Department
+- ELECTRICITY -> Electricity Department
+- SANITATION -> Sanitation Department
+- AGRICULTURE -> Agriculture Department
+- EDUCATION -> Education Department
+- PUBLIC_SAFETY -> Public Safety Department
+
+Routing Rules:
+1) AI predicts category using complaint description + title.
+2) System assigns department based on mapping.
+3) If department is inactive or missing, complaint is marked for manual review by Admin.

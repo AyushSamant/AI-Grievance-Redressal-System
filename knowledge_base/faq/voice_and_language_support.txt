@@ -1,0 +1,10 @@
+VOICE AND LANGUAGE SUPPORT FAQ
+
+1) Can I file a complaint using voice?
+Yes. You can upload a voice note as part of complaint submission. The system converts it into text using speech-to-text processing.
+
+2) Which languages are supported?
+The system supports multilingual complaint submission. Language is detected automatically, and the complaint is routed based on the meaning, not the language.
+
+3) What if speech-to-text fails?
+If audio is unclear, the system may request a text summary or additional details.

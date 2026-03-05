@@ -34,4 +34,11 @@ frontend/dist/
 node_modules/
 
 # ML models
-*.joblib
+*.joblib  
+
+chatbot/rag/faiss_index/
+**/faiss_index/
+
+streamlit_app/__pycache__/
+*.pyc
+.streamlit/

@@ -1,0 +1,57 @@
+COMPLAINTS FAQ (Citizen Help)
+
+HIGH priority complaints have an SLA of 4 days.
+CRITICAL priority complaints have an SLA of 2 days.
+MEDIUM priority complaints have an SLA of 7 days.
+LOW priority complaints have an SLA of 14 days.
+
+1) What is a complaint?
+A complaint is a formal request raised by a citizen to report a public issue such as poor road conditions, water supply failure, sanitation problems, electricity issues, healthcare concerns, or safety threats. The complaint is tracked with a unique complaint ID.
+
+2) How do I file a complaint?
+You can file a complaint by providing a title and a description. You may also upload proof such as images, documents, or a voice note. Complaints can be submitted in multiple languages.
+
+3) What happens after I submit a complaint?
+After submission, the system uses AI to:
+- Detect the language
+- Analyze urgency and sentiment
+- Classify the category (e.g., Health, Water, Infrastructure)
+- Auto-assign it to the relevant department
+- Estimate resolution timeline (SLA and predicted resolution time)
+
+4) How long does it take to resolve a complaint?
+Resolution time depends on priority:
+- CRITICAL: typically 2 days
+- HIGH: typically 4 days
+- MEDIUM: typically 7 days
+- LOW: typically 14 days
+These are SLA targets know as Service Level Agreements.
+
+5) What documents or proofs should I attach?
+You should attach proof when available, such as:
+- Photos or videos (e.g., broken road, garbage overflow)
+- Bills or reports (e.g., electricity damage proof)
+- Medical documents (e.g., hospital report)
+- Voice notes for quick reporting
+Providing proof helps the department verify faster.
+
+6) Can I track my complaint?
+Yes. You can view your complaint dashboard to track:
+- Status (Submitted, In Progress, Resolved, Closed)
+- Assigned department
+- Priority and urgency
+- Updates from department officers
+
+7) What is SLA?
+SLA stands for Service Level Agreement. It defines the maximum expected timeline in which a complaint should be acted upon or resolved based on its priority.
+
+8) When should I mark a complaint as CRITICAL?
+A complaint should be CRITICAL if it involves:
+- Threat to life or safety
+- Serious medical emergency
+- Fire, accident, or severe risk
+- Crimes, harassment, or violence
+- Major public hazards
+
+
+

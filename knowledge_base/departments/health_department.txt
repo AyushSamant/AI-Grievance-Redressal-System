@@ -1,0 +1,21 @@
+HEALTH DEPARTMENT (Scope and Examples)
+
+Scope:
+Handles complaints related to hospitals, clinics, medical services, emergency response, and healthcare facilities.
+
+Examples:
+- Ambulance not responding
+- Doctor unavailable in government hospital
+- Emergency medical support required
+- Poor hygiene in hospital ward
+- Denial of treatment or delay in care
+
+Required Proof (recommended):
+- Hospital slip or report
+- Medical documents if available
+- Voice note describing emergency situation
+
+Priority Guide:
+- CRITICAL: life-threatening emergencies, accident cases, severe medical risk
+- HIGH: hospital not responding, emergency services delayed
+- MEDIUM/LOW: general service complaints, minor healthcare facility issues

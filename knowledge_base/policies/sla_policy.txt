@@ -1,0 +1,21 @@
+SLA POLICY (Service Level Agreement)
+
+Purpose:
+SLA ensures complaints are resolved within an expected time window based on urgency and public impact.
+
+SLA Targets by Priority:
+- CRITICAL: 2 days (emergency and safety-related issues)
+- HIGH: 4 days (serious issues impacting daily life)
+- MEDIUM: 7 days (important but not immediate emergency)
+- LOW: 14 days (non-urgent requests and minor issues)
+
+Notes:
+- SLA indicates target resolution time, not guaranteed completion.
+- Departments should provide updates for delays and reasons.
+- High urgency complaints should be prioritized in officer queues.
+
+Examples:
+- CRITICAL: Accident emergency, fire hazard, major violence threat
+- HIGH: No water supply, major power issues, broken roads causing accidents
+- MEDIUM: Local sanitation issue, minor infrastructure repair
+- LOW: Requests such as information, minor maintenance

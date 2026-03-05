@@ -6,10 +6,26 @@ from departments.models import Department
 class Complaint(models.Model):
     class Status(models.TextChoices):
         SUBMITTED = "SUBMITTED", "Submitted"
-        IN_REVIEW = "IN_REVIEW", "In Review"
+        AI_PROCESSED = "AI_PROCESSED", "AI Processed"
         ASSIGNED = "ASSIGNED", "Assigned"
+        IN_PROGRESS = "IN_PROGRESS", "In Progress"
         RESOLVED = "RESOLVED", "Resolved"
+        CLOSED = "CLOSED", "Closed"
         REJECTED = "REJECTED", "Rejected"
+
+
+    ALLOWED_TRANSITIONS = {
+        Status.SUBMITTED: {Status.AI_PROCESSED, Status.REJECTED},
+        Status.AI_PROCESSED: {Status.ASSIGNED, Status.REJECTED},
+        Status.ASSIGNED: {Status.IN_PROGRESS, Status.REJECTED},
+        Status.IN_PROGRESS: {Status.RESOLVED, Status.REJECTED},
+        Status.RESOLVED: {Status.CLOSED},
+        Status.CLOSED: set(),
+        Status.REJECTED: set(),
+    }
+
+    def can_transition_to(self, new_status: str) -> bool:
+        return new_status in self.ALLOWED_TRANSITIONS.get(self.status, set())
 
     class Priority(models.TextChoices):
         LOW = "LOW", "Low"
@@ -56,3 +72,17 @@ class ComplaintMedia(models.Model):
 
     def __str__(self):
         return f"Media for complaint #{self.complaint_id}"
+
+class ComplaintHistory(models.Model): # like a case file log
+    complaint = models.ForeignKey("complaints.Complaint", on_delete=models.CASCADE, related_name="history")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    from_status = models.CharField(max_length=30)
+    to_status = models.CharField(max_length=30)
+    note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"#{self.complaint_id} {self.from_status} -> {self.to_status}"

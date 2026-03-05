@@ -1,14 +1,30 @@
-#here we created a custom permission rules in DRF
-# where we check who is allowed to access a particular API endpoint
-
 from rest_framework.permissions import BasePermission
 
+
 class IsAdminRole(BasePermission):
+    """Allows access only to users with role == 'ADMIN'."""
     def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated and request.user.role == "ADMIN")
+        return bool(
+            request.user
+            and request.user.is_authenticated
+            and getattr(request.user, "role", None) == "ADMIN"
+        )
+
 
 class IsOfficerRole(BasePermission):
+    """Allows access only to users with role == 'OFFICER'."""
     def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated and request.user.role == "OFFICER")
+        return bool(
+            request.user
+            and request.user.is_authenticated
+            and getattr(request.user, "role", None) == "OFFICER"
+        )
 
-#I implemented custom DRF permission classes that validate the authenticated user's role field before allowing access to protected endpoints.
+
+class IsAdminOrOfficer(BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            request.user
+            and request.user.is_authenticated
+            and getattr(request.user, "role", None) in ("ADMIN", "OFFICER")
+        )

@@ -1,0 +1,21 @@
+INFRASTRUCTURE DEPARTMENT (Scope and Examples)
+
+Scope:
+Handles public infrastructure problems such as roads, bridges, streetlights, construction hazards, and maintenance.
+
+Examples:
+- Potholes / broken roads causing accidents
+- Streetlight not working
+- Damaged footpath or open manhole
+- Unsafe construction debris on road
+- Bridge cracks or structural damage
+
+Recommended Proof:
+- Photos/videos with location details
+- Time and date info
+- Nearby landmark reference
+
+Priority Guide:
+- HIGH/CRITICAL: hazards causing accidents or life risk
+- MEDIUM: maintenance required but no immediate danger
+- LOW: minor repair requests

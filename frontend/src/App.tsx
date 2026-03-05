@@ -1,59 +1,74 @@
-import { useState } from "react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import axios from "axios";
-import { auth } from "./firebase";
+// src/App.tsx
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import LandingPage   from "./pages/LandingPage";
+import LoginPage     from "./pages/LoginPage";
+import SignupPage    from "./pages/SignupPage";
+import HomePage      from "./pages/HomePage";
+import DashboardPage from "./pages/DashboardPage";
+import ComplaintsPage from "./pages/ComplaintsPage";
+import TrackingPage  from "./pages/TrackingPage";
+import ChatbotPage   from "./pages/ChatbotPage";
+import OfficerPage   from "./pages/OfficerPage";
+import AdminPage     from "./pages/AdminPage";
+
+function AppRoutes() {
+  return (
+    <Routes>
+      {/* Public landing page — shown at / to everyone */}
+      <Route path="/"       element={<LandingPage />} />
+      <Route path="/login"  element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+
+      {/* Protected — authenticated users go to /home */}
+      <Route path="/home" element={
+        <ProtectedRoute>
+          <Layout><HomePage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Layout><DashboardPage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/complaints" element={
+        <ProtectedRoute>
+          <Layout><ComplaintsPage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/tracking" element={
+        <ProtectedRoute>
+          <Layout><TrackingPage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/chatbot" element={
+        <ProtectedRoute>
+          <Layout><ChatbotPage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/officer" element={
+        <ProtectedRoute allowedRoles={["OFFICER","ADMIN"]}>
+          <Layout><OfficerPage /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin" element={
+        <ProtectedRoute allowedRoles={["ADMIN"]}>
+          <Layout><AdminPage /></Layout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
 
 export default function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const backendBase = "http://127.0.0.1:8000";
-
-  const register = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
-    alert("Registered successfully. Now login.");
-  };
-
-  const login = async () => {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    const idToken = await cred.user.getIdToken();
-
-    const res = await axios.post(`${backendBase}/api/users/firebase-login/`, {
-      idToken
-    });
-
-    localStorage.setItem("access", res.data.access);
-    localStorage.setItem("refresh", res.data.refresh);
-
-    alert("Login successful! Role: " + res.data.role);
-  };
-
   return (
-    <div style={{ maxWidth: 400, margin: "60px auto", fontFamily: "sans-serif" }}>
-      <h2>AI Grievance System</h2>
-
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{ width: "100%", padding: 10, marginBottom: 10 }}
-      />
-
-      <input
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ width: "100%", padding: 10, marginBottom: 10 }}
-      />
-
-      <button onClick={register} style={{ width: "100%", padding: 10, marginBottom: 10 }}>
-        Register
-      </button>
-
-      <button onClick={login} style={{ width: "100%", padding: 10 }}>
-        Login
-      </button>
-    </div>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }

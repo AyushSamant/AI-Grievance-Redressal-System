@@ -1,0 +1,20 @@
+WATER SUPPLY DEPARTMENT (Scope and Examples)
+
+Scope:
+Handles drinking water issues, supply interruptions, pipeline leaks, low pressure, and contamination.
+
+Examples:
+- No water supply for hours/days
+- Pipeline leakage near home
+- Dirty or contaminated water
+- Low pressure during peak hours
+
+Proof:
+- Photo/video of leakage
+- Short voice note describing duration and impact
+- Address and landmark details
+
+Priority Guide:
+- HIGH: no water supply, contamination risk
+- MEDIUM: intermittent supply, low pressure
+- LOW: minor complaints, general requests

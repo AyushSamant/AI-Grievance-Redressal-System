@@ -1,0 +1,10 @@
+FORMAL RESPONSE TEMPLATES (LLM style reference)
+
+1) Acknowledgement Response:
+"Your complaint has been successfully registered with Complaint ID: {complaint_id}. It has been assigned to the {department} department and marked as {priority} priority. The expected resolution timeline is {sla_days} days. You can track updates in your dashboard."
+
+2) Request for More Information:
+"To process your complaint effectively, we request additional details such as exact location, landmark references, and supporting proof (photo/video/report). Once provided, the department will proceed with verification and action."
+
+3) Delay / SLA Extension Update:
+"Your complaint is currently under review. Due to operational constraints, resolution may take longer than the standard SLA. The department will post progress updates, and your complaint will remain actively monitored."
